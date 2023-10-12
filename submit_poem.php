@@ -3,34 +3,47 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-require 'vendor/autoload.php'; // Load Composer's autoloader
+require 'path/to/vendor/autoload.php'; // Adjust the path to your Composer vendor autoload file
 
-$mail = new PHPMailer(true);
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: *");
+header("Content-Type: text/plain");
 
-try {
-    // Server settings
-    $mail->SMTPDebug = SMTP::DEBUG_OFF; // Enable verbose debug output
-    $mail->isSMTP(); // Send using SMTP
-    $mail->Host       = 'smtp.gmail.com'; // Set the SMTP server to send through
-    $mail->SMTPAuth   = true; // Enable SMTP authentication
-    $mail->Username   = 'thetruedemon4@gmail.com'; // SMTP username
-    $mail->Password   = 'apjs idhh mbcz uyxm'; // SMTP password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-    $mail->Port       = 587; // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve values from the POST request
+    $name = $_POST["name"];
+    $phoneNumber = $_POST["phoneNumber"]; // assuming you want to capture phone number as well
+    $poemType = $_POST["poemType"];
+    $title = $_POST["title"];
+    $poemText = $_POST["poemText"];
 
-    // Recipients
-    $mail->setFrom('tsergeant@hsutx.edu', 'Mailer');
-    $mail->addAddress('ajg2204@hsutx.edu', 'User Name'); // Add a recipient
+    // Create a new PHPMailer instance
+    $mail = new PHPMailer(true);
 
-    // Content
-    $mail->isHTML(true); // Set email format to HTML
-    $mail->Subject = 'Here is the subject';
-    $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+    try {
+        //Server settings
+        $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
+        $mail->isSMTP(); 
+        $mail->Host       = 'smtp.gmail.com'; // Set the SMTP server to send through
+        $mail->SMTPAuth   = true; // Enable SMTP authentication
+        $mail->Username   = 'thetruedemon4@gmail.com'; // SMTP username
+        $mail->Password   = 'apjs idhh mbcz uyxm'; // SMTP password
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
+        $mail->Port       = 587; 
 
-    $mail->send();
-    echo 'Message has been sent';
-} catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        // Recipients
+        $mail->setFrom('from@example.com', 'Mailer');
+        $mail->addAddress('ajg2204@hsutx.edu', 'Joe User'); // Add a recipient
+
+        // Content
+        $mail->isHTML(true); // Set email format to HTML
+        $mail->Subject = "New Poem Submission from $name";
+        $mail->Body    = "Name: $name<br>Phone: $phoneNumber<br>Poem Type: $poemType<br>Title: $title<br><br>$poemText";
+
+        $mail->send();
+        echo 'Email sent successfully!';
+    } catch (Exception $e) {
+        echo "Email sending failed. Error: {$mail->ErrorInfo}";
+    }
 }
 ?>
