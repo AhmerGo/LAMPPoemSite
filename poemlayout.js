@@ -46,6 +46,14 @@ document.addEventListener("DOMContentLoaded", function () {
   // Set the click event handler
   document.getElementById("loremDiv").addEventListener("click", slideUp);
 
+  function isValidPhoneNumber(phone) {
+    return (
+      phone.search(
+        /^(\(\d{3}\)\s?\d{3}-\d{4}|\d{3}-\d{4}|\d{3}-\d{3}-\d{4})$/
+      ) !== -1
+    );
+  }
+
   document.getElementById("poemForm").onsubmit = validateForm;
 
   function validateForm(evt) {
