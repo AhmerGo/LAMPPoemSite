@@ -3,7 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-require 'path/to/vendor/autoload.php'; // Adjust the path to your Composer vendor autoload file
+require 'vendor/autoload.php'; // Adjust the path to your Composer vendor autoload file
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
