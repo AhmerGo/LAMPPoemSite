@@ -4,6 +4,8 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 require 'vendor/autoload.php'; // Adjust the path to your Composer vendor autoload file
+$config = require 'email_config.php'; // Adjust the path to your config file
+
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
@@ -24,15 +26,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //Server settings
         $mail->SMTPDebug = 0;
         $mail->isSMTP(); 
-        $mail->Host       = 'smtp.gmail.com'; // Set the SMTP server to send through
-        $mail->SMTPAuth   = true; // Enable SMTP authentication
-        $mail->Username   = 'thetruedemon4@gmail.com'; // SMTP username
-        $mail->Password   = 'apjs idhh mbcz uyxm'; // SMTP password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-        $mail->Port       = 587; 
+        $mail->Host       = $config['host'];
+        $mail->SMTPAuth   = true;
+        $mail->Username   = $config['username'];
+        $mail->Password   = $config['password'];
+        $mail->SMTPSecure = $config['smtp_secure'];
+        $mail->Port       = $config['port'];
+
 
         // Recipients
-        $mail->setFrom('from@example.com', 'Mailer');
+        $mail->setFrom($config['from_email'], $config['from_name']);
         $mail->addAddress('ajg2204@hsutx.edu', 'Joe User'); // Add a recipient
 
         // Content
