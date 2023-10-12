@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     try {
         //Server settings
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
+        $mail->SMTPDebug = 0;
         $mail->isSMTP(); 
         $mail->Host       = 'smtp.gmail.com'; // Set the SMTP server to send through
         $mail->SMTPAuth   = true; // Enable SMTP authentication
